@@ -88,6 +88,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'embear/vim-localvimrc'
 Plug 'cloudhead/neovim-fuzzy'
 Plug 'bling/vim-airline'
+Plug 'w0rp/ale'
 
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
@@ -109,7 +110,7 @@ if executable('scalac')
   Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 endif
 
-"custom colorscheme
+"colorscheme
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
@@ -144,22 +145,6 @@ nnoremap <leader>k <C-W><C-K>
 nnoremap <leader>l <C-W><C-L>
 nnoremap <leader>h <C-W><C-H>
 
-" sarsi
-call rpcstart('sarsi-nvim')
-
-   nnoremap <leader>p :cfirst<cr>
-  nnoremap <leader>[ :cnext<cr>
-  nnoremap <leader>] :cprevious<cr>
-"endif
-
-
-" Ripgrep for search
-if executable('rg')
-  set grepprg=rg\ -i\ --vimgrep
-  " Ripgrep on /
-  command! -nargs=+ -complete=file -bar Rg silent! grep! <args>|cwindow|redraw!
-  nnoremap <leader>g :Rg<SPACE>
-endif
 
 " airline
 set laststatus=2
@@ -175,4 +160,7 @@ let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
 let g:airline_section_z = ""
-
+" ALE
+let g:airline#extensions#ale#enabled = 1
+let g:ale_linters = {'scala': ['scalac', 'scalastyle']}
+let g:ale_lint_delay = 800
