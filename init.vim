@@ -114,10 +114,18 @@ endif
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
+
 " LOOK AND SYNTAX HILIGHTING {{{
+"fix for mac terminal colors going weird
+    if $TERM =~ '^\(xterm\|interix\|putty\)\(-.*\)\?$'
+        set notermguicolors
+    else
+        set termguicolors
+        endif
+
 syntax on
 set background=dark
-set termguicolors
+
 colorscheme archery
 let g:airline_theme = 'archery'
 
