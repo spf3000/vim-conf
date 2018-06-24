@@ -34,6 +34,21 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
 
+" SBT server
+set signcolumn=yes
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')]
+    \ }
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+set omnifunc=LanguageClient#complete
+set formatexpr=LanguageClient_textDocument_rangeFormatting()
+
+
+"togglelist - toggle quickfix list with leader-q
+let g:toggle_list_no_mappings = 1
+nmap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
+
 " Use FZF for files and tags if available, otherwise fall back onto CtrlP
 " <leader>\ will search for tag using word under cursor
 let g:fzf_command_prefix = 'Fzf'
@@ -80,7 +95,6 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'tpope/vim-unimpaired'
 Plug 'godlygeek/tabular'
 Plug 'sbdchd/neoformat'
-Plug 'neomake/neomake'
 Plug 'luochen1990/rainbow'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'mattn/emmet-vim'
@@ -88,13 +102,11 @@ Plug 'justinmk/vim-sneak'
 Plug 'embear/vim-localvimrc'
 Plug 'cloudhead/neovim-fuzzy'
 Plug 'bling/vim-airline'
-Plug 'w0rp/ale'
+Plug 'milkypostman/vim-togglelist'
+Plug 'eed3si9n/LanguageClient-neovim'
 
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
-" Filesystem/search
-" Plug 'scrooloose/nerdtree'
-" Plug 'ctrlpvim/ctrlp.vim'
 
 " Tags
 Plug 'majutsushi/tagbar'
@@ -104,11 +116,12 @@ Plug 'craigemery/vim-autotag'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
+
 " Language plugins
 " Scala plugins
-if executable('scalac')
-  Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
-endif
+"if executable('scalac')
+"  Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+"endif
 
 "colorscheme
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
@@ -168,7 +181,3 @@ let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
 let g:airline_section_z = ""
-" ALE
-let g:airline#extensions#ale#enabled = 1
-let g:ale_linters = {'scala': ['scalac', 'scalastyle']}
-let g:ale_lint_delay = 800
