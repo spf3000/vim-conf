@@ -34,6 +34,9 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
 
+let g:python_host_prog  = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 " SBT server
 set signcolumn=yes
 let g:LanguageClient_autoStart = 1
@@ -104,6 +107,12 @@ Plug 'cloudhead/neovim-fuzzy'
 Plug 'bling/vim-airline'
 Plug 'milkypostman/vim-togglelist'
 Plug 'eed3si9n/LanguageClient-neovim'
+Plug 'jnurmine/Zenburn'
+Plug 'qualiabyte/vim-colorstepper'
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
 
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
@@ -120,10 +129,11 @@ Plug 'tpope/vim-fugitive'
 " Language plugins
 " Scala plugins
 "if executable('scalac')
-"  Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'derekwyatt/vim-scala'
 "endif
 
 "colorscheme
+Plug 'flazz/vim-colorschemes'
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
@@ -136,10 +146,12 @@ call plug#end()
         set termguicolors
         endif
 
-syntax on
+syntax enable
 set background=dark
 
-colorscheme archery
+"colorscheme archery
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+colorscheme Tomorrow-Night-Eighties
 let g:airline_theme = 'archery'
 
 set cursorline
@@ -147,7 +159,6 @@ set cursorline
 "shortcut to move physical lines Alt-j and Alt-k
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
