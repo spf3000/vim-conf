@@ -114,7 +114,7 @@ Plug 'qualiabyte/vim-colorstepper'
 "    \ 'do': 'bash install.sh',
 "    \ }
 
-let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
 
 " Tags
