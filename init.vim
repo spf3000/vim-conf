@@ -2,7 +2,7 @@
 call plug#begin()
 
 " deoplete plugin for autocomplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
@@ -37,16 +37,39 @@ endif
 let g:python_host_prog  = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
-" SBT server
-set signcolumn=yes
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {
-    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')]
+"" SBT server
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
     \ }
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-set omnifunc=LanguageClient#complete
-set formatexpr=LanguageClient_textDocument_rangeFormatting()
 
+augroup filetype_scala
+    autocmd!
+    autocmd BufReadPost *.scala setlocal filetype=scala
+augroup END
+
+let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+let g:LanguageClient_loggingLevel = 'INFO'
+let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
+
+" A dependency of 'ncm2'.
+Plug 'roxma/nvim-yarp'
+
+" v2 of the nvim-completion-manager.
+Plug 'ncm2/ncm2'
+
+autocmd BufEnter  *  call ncm2#enable_for_buffer()
+
+" This will show the popup menu even if there's only one match (menuone),
+" prevent automatic selection (noselect) and prevent automatic text injection
+" into the current line (noinsert).
+set completeopt=noinsert,menuone,noselect
+
+    " NOTE: you need to install completion sources to get completions. Check
+    " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-tmux'
+    Plug 'ncm2/ncm2-path'
 
 "togglelist - toggle quickfix list with leader-q
 let g:toggle_list_no_mappings = 1
@@ -84,7 +107,7 @@ let g:tagbar_type_scala = {
 
 " deoplete stuff
 
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 
 " Remap <tab> to allow cycling through the deoplete list, but only when the
 " deoplete list window is open. Leave <tab> alone the rest of the time.
@@ -99,22 +122,16 @@ Plug 'tpope/vim-unimpaired'
 Plug 'godlygeek/tabular'
 Plug 'sbdchd/neoformat'
 Plug 'luochen1990/rainbow'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'mattn/emmet-vim'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'justinmk/vim-sneak'
 Plug 'embear/vim-localvimrc'
 Plug 'cloudhead/neovim-fuzzy'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'milkypostman/vim-togglelist'
-Plug 'eed3si9n/LanguageClient-neovim'
-Plug 'jnurmine/Zenburn'
-Plug 'qualiabyte/vim-colorstepper'
-"Plug 'autozimu/LanguageClient-neovim', {
-"    \ 'branch': 'next',
-"    \ 'do': 'bash install.sh',
-"    \ }
+Plug 'Chiel92/vim-autoformat'
 
-let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
+let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
 
 " Tags
@@ -137,6 +154,17 @@ Plug 'flazz/vim-colorschemes'
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
+"augroup filetype_scala
+"    autocmd!
+"    autocmd BufReadPost *.scala setlocal filetype=scala
+"augroup END
+"
+" Always draw sign column. Prevent buffer moving when adding/deleting sign.
+set signcolumn=yes
+
+let g:LanguageClient_serverCommands = {
+    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')],
+    \ }
 
 " LOOK AND SYNTAX HILIGHTING {{{
 "fix for mac terminal colors going weird
@@ -148,13 +176,11 @@ call plug#end()
 
 syntax enable
 set background=dark
+set t_Co=256
 
-"colorscheme archery
 inoremap <A-j> <Esc>:m .+1<CR>==gi
-colorscheme Tomorrow-Night-Eighties
-let g:airline_theme = 'archery'
+colorscheme base16-railscasts
 
-set cursorline
 
 "shortcut to move physical lines Alt-j and Alt-k
 nnoremap <A-j> :m .+1<CR>==
