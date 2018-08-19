@@ -71,6 +71,29 @@ set completeopt=noinsert,menuone,noselect
     Plug 'ncm2/ncm2-tmux'
     Plug 'ncm2/ncm2-path'
 
+" based on snipmate
+Plug 'ncm2/ncm2-snipmate'
+
+" snipmate dependencies
+Plug 'tomtom/tlib_vim'
+Plug 'marcweber/vim-addon-mw-utils'
+Plug 'garbas/vim-snipmate'
+
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_snipmate#expand_or("\<CR>", 'n')
+
+" wrap <Plug>snipMateTrigger so that it works for both completin and normal
+" snippet
+" inoremap <expr> <c-u> ncm2_snipmate#expand_or("\<Plug>snipMateTrigger", "m")
+
+" c-j c-k for moving in snippet
+let g:snips_no_mappings = 1
+vmap <c-j> <Plug>snipMateNextOrTrigger
+vmap <c-k> <Plug>snipMateBack
+imap <expr> <c-k> pumvisible() ? "\<c-y>\<Plug>snipMateBack" : "\<Plug>snipMateBack"
+imap <expr> <c-j> pumvisible() ? "\<c-y>\<Plug>snipMateNextOrTrigger" : "\<Plug>snipMateNextOrTrigger"
+
 "togglelist - toggle quickfix list with leader-q
 let g:toggle_list_no_mappings = 1
 nmap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
@@ -105,9 +128,6 @@ let g:tagbar_type_scala = {
     \ ]
 \ }
 
-" deoplete stuff
-
-"let g:deoplete#enable_at_startup = 1
 
 " Remap <tab> to allow cycling through the deoplete list, but only when the
 " deoplete list window is open. Leave <tab> alone the rest of the time.
@@ -122,7 +142,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'godlygeek/tabular'
 Plug 'sbdchd/neoformat'
 Plug 'luochen1990/rainbow'
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'justinmk/vim-sneak'
 Plug 'embear/vim-localvimrc'
 Plug 'cloudhead/neovim-fuzzy'
@@ -154,11 +173,6 @@ Plug 'flazz/vim-colorschemes'
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
-"augroup filetype_scala
-"    autocmd!
-"    autocmd BufReadPost *.scala setlocal filetype=scala
-"augroup END
-"
 " Always draw sign column. Prevent buffer moving when adding/deleting sign.
 set signcolumn=yes
 
