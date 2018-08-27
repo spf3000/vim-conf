@@ -1,24 +1,21 @@
 " - VIM PLUG
 call plug#begin()
 
-" deoplete plugin for autocomplete
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" autotag plugin to automatically generate ctags file
-Plug 'craigemery/vim-autotag'
-
-" ctags stuff
-
-set tags=.tags
-let g:autotagTagsFile=".tags"
-
-map <C-i> :TagbarToggle<CR>
-
 " Map the leader key to SPACE
 let mapleader = " "
 
+" stags stuff
+let g:autotagTagsFile="./tags"
+let g:autotagCtagsCmd=":!stags ./"
+
+map <C-i> :TagbarToggle<CR>
+
 " Regenerate tags file
-map <leader>r :!ctags -R -f ./.tags .<CR>
+"map <leader>r :!ctags -R -f ./.tags .<CR>
+map <leader>r :!stags ./
+
+" autotag plugin to automatically generate ctags file
+Plug 'craigemery/vim-autotag'
 
 " FZF / Ctrlp for file navigation
 if executable('fzf')
@@ -48,9 +45,9 @@ augroup filetype_scala
     autocmd BufReadPost *.scala setlocal filetype=scala
 augroup END
 
-let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-let g:LanguageClient_loggingLevel = 'INFO'
-let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
+Plug 'tpope/vim-abolish'
+
+
 
 " A dependency of 'ncm2'.
 Plug 'roxma/nvim-yarp'
@@ -65,11 +62,12 @@ autocmd BufEnter  *  call ncm2#enable_for_buffer()
 " into the current line (noinsert).
 set completeopt=noinsert,menuone,noselect
 
-    " NOTE: you need to install completion sources to get completions. Check
-    " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-    Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-tmux'
-    Plug 'ncm2/ncm2-path'
+" NOTE: you need to install completion sources to get completions. Check
+" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
+
 
 
 "togglelist - toggle quickfix list with leader-q
@@ -108,7 +106,7 @@ let g:tagbar_type_scala = {
 
 
 " Remap <tab> to allow cycling through the deoplete list, but only when the
-" deoplete list window is open. Leave <tab> alone the rest of the time.
+" completion list window is open. Leave <tab> alone the rest of the time.
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 
@@ -129,7 +127,6 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'Chiel92/vim-autoformat'
 
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
-
 
 " Tags
 Plug 'majutsushi/tagbar'
@@ -173,6 +170,11 @@ set t_Co=256
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 colorscheme base16-railscasts
 
+" clear search highlighting with escape
+nnoremap <silent> <Esc> :let @/=""<CR>
+
+" format json with =j
+nmap =j :%!python -m json.tool<CR>
 
 "shortcut to move physical lines Alt-j and Alt-k
 nnoremap <A-j> :m .+1<CR>==
