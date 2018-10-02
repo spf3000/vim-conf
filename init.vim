@@ -4,15 +4,14 @@ call plug#begin()
 " Map the leader key to SPACE
 let mapleader = " "
 
-" stags stuff
-let g:autotagTagsFile="./tags"
-let g:autotagCtagsCmd=":!stags ./"
+" ctags stuff
+set tags=.tags
+let g:autotagTagsFile=".tags"
 
 map <C-i> :TagbarToggle<CR>
 
 " Regenerate tags file
-"map <leader>r :!ctags -R -f ./.tags .<CR>
-map <leader>r :!stags ./
+map <leader>r :!ctags -R -f ./.tags .<CR>
 
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
@@ -154,6 +153,10 @@ set signcolumn=yes
 let g:LanguageClient_serverCommands = {
     \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')],
     \ }
+
+
+"Language Client
+ nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " LOOK AND SYNTAX HILIGHTING {{{
 "fix for mac terminal colors going weird
