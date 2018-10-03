@@ -13,6 +13,9 @@ map <C-i> :TagbarToggle<CR>
 " Regenerate tags file
 map <leader>r :!ctags -R -f ./.tags .<CR>
 
+"manual folding
+setlocal foldmethod=manual
+
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
 
