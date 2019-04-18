@@ -37,10 +37,10 @@ let g:python_host_prog  = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 "" SBT server
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
 
 augroup filetype_scala
     autocmd!
@@ -57,7 +57,8 @@ Plug 'roxma/nvim-yarp'
 " v2 of the nvim-completion-manager.
 Plug 'ncm2/ncm2'
 
-autocmd BufEnter  *  call ncm2#enable_for_buffer()
+"ncm switched off to try metals/
+"autocmd BufEnter  *  call ncm2#enable_for_buffer()
 
 " This will show the popup menu even if there's only one match (menuone),
 " prevent automatic selection (noselect) and prevent automatic text injection
@@ -66,9 +67,9 @@ set completeopt=noinsert,menuone,noselect
 
 " NOTE: you need to install completion sources to get completions. Check
 " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-tmux'
-Plug 'ncm2/ncm2-path'
+"Plug 'ncm2/ncm2-bufword'
+"Plug 'ncm2/ncm2-tmux'
+"Plug 'ncm2/ncm2-path'
 
 
 
@@ -141,10 +142,90 @@ Plug 'tpope/vim-fugitive'
 
 " Language plugins
 " Scala plugins
-"if executable('scalac')
 Plug 'derekwyatt/vim-scala'
-"endif
+Plug 'natebosch/vim-lsc'
 
+" Configuration for vim-lsc
+"let g:lsc_enable_autocomplete = v:false
+"let g:lsc_server_commands = {
+"  \  'scala': {
+"  \    'command': 'metals-vim',
+"  \    'log_level': 'Log'
+"  \  }
+"  \}
+"let g:lsc_auto_map = {
+"  \  'defaults': v:true,
+"  \  'AllDiagnostics': 'gd'
+"  \}
+"map <leader>m :LSClientLineDiagnostics<cr>
+
+" config for coc Language server *****************************
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" Some server have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+
+" Remap for do action format
+nnoremap <silent> F :call CocAction('format')<CR>
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>n  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>v  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" *************************
 "colorscheme
 Plug 'flazz/vim-colorschemes'
 Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
@@ -153,13 +234,20 @@ call plug#end()
 " Always draw sign column. Prevent buffer moving when adding/deleting sign.
 set signcolumn=yes
 
-let g:LanguageClient_serverCommands = {
-    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')],
-    \ }
+"let g:LanguageClient_serverCommands = {
+"    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')],
+"    \ }
+let g:LanguageClient_autoStart = 0
 
+"coc Set up keymap for trigger completion, use: >
+
+inoremap <silent><expr> <c-space> coc#refresh()
+
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
 "Language Client
- nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " LOOK AND SYNTAX HILIGHTING {{{
 "fix for mac terminal colors going weird
@@ -174,7 +262,7 @@ set background=dark
 set t_Co=256
 
 inoremap <A-j> <Esc>:m .+1<CR>==gi
-colorscheme base16-railscasts
+colorscheme kalisi
 
 " clear search highlighting with escape
 nnoremap <silent> <Esc> :let @/=""<CR>
