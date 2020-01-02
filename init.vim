@@ -8,7 +8,7 @@ let mapleader = " "
 set tags=.tags
 let g:autotagTagsFile=".tags"
 
-map <C-i> :TagbarToggle<CR>
+"map <C-i> :TagbarToggle<CR>
 
 " Regenerate tags file
 map <leader>r :!ctags -R -f ./.tags .<CR>
@@ -19,9 +19,17 @@ setlocal foldmethod=manual
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
 
+" To Install FZF as well
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf.vim'
+"
 " FZF / Ctrlp for file navigation
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+if executable('fzf')
+  Plug '/usr/local/opt/fzf'
+  Plug 'junegunn/fzf.vim'
+else
+  Plug 'ctrlpvim/ctrlp.vim'
+endif
 
 " Ripgrep for file indexing, sort of faster, but not really, but also why not use ripgrep for everything
 if executable('rg')
@@ -42,6 +50,10 @@ augroup filetype_scala
     autocmd!
     autocmd BufReadPost *.scala setlocal filetype=scala
 augroup END
+
+"vim % matching for more file types
+Plug 'https://github.com/adelarsq/vim-matchit'
+:filetype plugin indent on
 
 Plug 'tpope/vim-abolish'
 
@@ -128,7 +140,7 @@ Plug 'Chiel92/vim-autoformat'
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
 " Tags
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 Plug 'craigemery/vim-autotag'
 
 " Git
@@ -158,11 +170,15 @@ Plug 'natebosch/vim-lsc'
 " config for coc Language server *****************************
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
+
+" Tabnine - ML autocompletions
+"Plug 'zxqfl/tabnine-vim'
+
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+"set shortmess+=c
 
 " Some server have issues with backup files, see #649
 set nobackup
@@ -190,6 +206,7 @@ nmap <leader>ac <Plug>(coc-codeaction)
 
 " Remap for do action format
 nnoremap <silent> F :call CocAction('format')<CR>
+autocmd BufWritePost *.scala silent call CocActionAsync('format')
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -221,19 +238,36 @@ nnoremap <silent> <space>v  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" Notify coc.nvim that <enter> has been pressed.
+" Currently used for the formatOnType feature.
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Metals specific commands
+" Start Metals Doctor
+command! -nargs=0 MetalsDoctor :call CocRequestAsync('metals', 'workspace/executeCommand', { 'command': 'doctor-run' })
+" Manually start build import
+command! -nargs=0 MetalsImport :call CocRequestAsync('metals', 'workspace/executeCommand', { 'command': 'build-import' })
+" Manually connect with the build server
+command! -nargs=0 MetalsConnect :call CocRequestAsync('metals', 'workspace/executeCommand', { 'command': 'build-connect' })
+
 " *************************
 "colorscheme
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'flazz/vim-colorschemes'
-Plug 'Badacadabra/vim-archery', { 'as': 'archery' }
 call plug#end()
 
 " Always draw sign column. Prevent buffer moving when adding/deleting sign.
 set signcolumn=yes
 
+"relative line numbers with also current number
+set relativenumber
+set number
+
 "let g:LanguageClient_serverCommands = {
 "    \ 'scala': ['node', expand('/usr/local/bin/sbt-server-stdio.js')],
 "    \ }
-let g:LanguageClient_autoStart = 0
+"let g:LanguageClient_autoStart = 0
 
 "coc Set up keymap for trigger completion, use: >
 
@@ -258,7 +292,9 @@ set background=dark
 set t_Co=256
 
 inoremap <A-j> <Esc>:m .+1<CR>==gi
-colorscheme kalisi
+"colorscheme kalisi
+colorscheme OceanicNext
+
 
 " clear search highlighting with escape
 nnoremap <silent> <Esc> :let @/=""<CR>
@@ -274,8 +310,10 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " change vim scroll keys
-nnoremap <C-J> <C-D>
-nnoremap <C-K> <C-U>
+"nnoremap <C-J> <C-D>
+"nnoremap <C-K> <C-U>
+nnoremap <C-J> 40j zt
+nnoremap <C-K> 40k zt
 
 " change jump to definition
 nnoremap <leader>. <C-]>
