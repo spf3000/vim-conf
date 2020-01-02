@@ -20,12 +20,8 @@ setlocal foldmethod=manual
 Plug 'craigemery/vim-autotag'
 
 " FZF / Ctrlp for file navigation
-if executable('fzf')
-  Plug '/usr/local/opt/fzf'
-  Plug 'junegunn/fzf.vim'
-else
-  Plug 'ctrlpvim/ctrlp.vim'
-endif
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " Ripgrep for file indexing, sort of faster, but not really, but also why not use ripgrep for everything
 if executable('rg')
