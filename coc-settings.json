@@ -1,0 +1,12 @@
+{
+  "languageserver": {
+    "metals": {
+      "command": "metals-vim",
+      "rootPatterns": ["build.sbt"],
+      "filetypes": ["scala", "sbt"]
+    }
+  },
+"java.trace.server": "verbose",
+"java.home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home",
+"java.jdt.ls.home":"/usr/local/bin/jdt-language-server-0.1.0-201702132114"
+}
