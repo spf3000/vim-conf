@@ -16,6 +16,9 @@ map <leader>r :!ctags -R -f ./.tags .<CR>
 "manual folding
 setlocal foldmethod=manual
 
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
 
