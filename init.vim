@@ -223,7 +223,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -296,7 +296,8 @@ set t_Co=256
 
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme kalisi
-colorscheme OceanicNext
+"colorscheme OceanicNext
+colorscheme reliable
 
 
 " clear search highlighting with escape
