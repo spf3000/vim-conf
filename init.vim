@@ -220,7 +220,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -293,7 +293,7 @@ set t_Co=256
 
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme kalisi
-colorscheme OceanicNext
+colorscheme reliable
 
 
 " clear search highlighting with escape
@@ -312,8 +312,8 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " change vim scroll keys
 "nnoremap <C-J> <C-D>
 "nnoremap <C-K> <C-U>
-nnoremap <C-J> 40j zt
-nnoremap <C-K> 40k zt
+nnoremap <C-J> 40j zz
+nnoremap <C-K> 40k zz
 
 " change jump to definition
 nnoremap <leader>. <C-]>
