@@ -16,6 +16,9 @@ map <leader>r :!ctags -R -f ./.tags .<CR>
 "manual folding
 setlocal foldmethod=manual
 
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
 
@@ -293,6 +296,7 @@ set t_Co=256
 
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme kalisi
+"colorscheme OceanicNext
 colorscheme reliable
 
 
