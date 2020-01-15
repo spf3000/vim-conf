@@ -297,7 +297,9 @@ set t_Co=256
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme kalisi
 "colorscheme OceanicNext
-colorscheme reliable
+"colorscheme reliable
+"colorscheme CandyCode
+colorscheme space-vim-dark
 
 
 " clear search highlighting with escape
