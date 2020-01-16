@@ -223,7 +223,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
-"autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -258,6 +258,10 @@ command! -nargs=0 MetalsConnect :call CocRequestAsync('metals', 'workspace/execu
 "colorscheme
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'flazz/vim-colorschemes'
+Plug 'arcticicestudio/nord-vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'morhetz/gruvbox'
+Plug 'yearofmoo/Vim-Darkmate'
 call plug#end()
 
 " Always draw sign column. Prevent buffer moving when adding/deleting sign.
@@ -284,11 +288,11 @@ let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_
 
 " LOOK AND SYNTAX HILIGHTING {{{
 "fix for mac terminal colors going weird
-    if $TERM =~ '^\(xterm\|interix\|putty\)\(-.*\)\?$'
-        set notermguicolors
-    else
-        set termguicolors
-        endif
+"    if $TERM =~ '^\(xterm\|interix\|putty\)\(-.*\)\?$'
+"        set notermguicolors
+"    else
+set termguicolors
+"        endif
 
 syntax enable
 set background=dark
@@ -299,7 +303,10 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme OceanicNext
 "colorscheme reliable
 "colorscheme CandyCode
-colorscheme space-vim-dark
+"colorscheme space-vim-dark
+"colorscheme nord
+"colorscheme gruvbox
+colorscheme atom
 
 
 " clear search highlighting with escape
