@@ -124,13 +124,11 @@ let g:tagbar_type_scala = {
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 
-" Here's the complete list of my neovim plugins, in case you're interested
 " General
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-rhubarb'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tpope/vim-unimpaired'
 Plug 'godlygeek/tabular'
-Plug 'sbdchd/neoformat'
 Plug 'luochen1990/rainbow'
 Plug 'justinmk/vim-sneak'
 Plug 'embear/vim-localvimrc'
@@ -260,6 +258,7 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'flazz/vim-colorschemes'
 Plug 'arcticicestudio/nord-vim'
 Plug 'drewtempelmeyer/palenight.vim'
+Plug 'rakr/vim-two-firewatch'
 Plug 'morhetz/gruvbox'
 Plug 'yearofmoo/Vim-Darkmate'
 call plug#end()
@@ -304,8 +303,14 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme reliable
 "colorscheme nord
 "colorscheme gruvbox
-colorscheme atom
-
+"colorscheme atom
+"colorscheme focuspoint
+"colorscheme hydrangea
+"colorscheme dracula
+"colorscheme hybrid_material
+"colorscheme purify
+"colorscheme mythos
+colorscheme palenight
 
 " clear search highlighting with escape
 nnoremap <silent> <Esc> :let @/=""<CR>
@@ -323,12 +328,12 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " change vim scroll keys
 "nnoremap <C-J> <C-D>
 "nnoremap <C-K> <C-U>
-nnoremap <C-J> 40j zz
-nnoremap <C-K> 40k zz
+nnoremap <C-J> 35j zz
+nnoremap <C-K> 35k zz
 
 " change jump to definition
-nnoremap <leader>. <C-]>
-nnoremap <leader>, <C-T>
+"nnoremap <leader>. <C-]>
+"nnoremap <leader>, <C-T>
 
 " easier split navigations
 nnoremap <leader>j <C-W><C-J>
@@ -343,7 +348,7 @@ let g:airline_left_sep=""
 let g:airline_left_alt_sep="|"
 let g:airline_right_sep=""
 let g:airline_right_alt_sep="|"
-let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number not number of split panes
