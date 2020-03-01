@@ -301,6 +301,8 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme kalisi
 "colorscheme OceanicNext
 "colorscheme reliable
+"colorscheme CandyCode
+"colorscheme space-vim-dark
 "colorscheme nord
 "colorscheme gruvbox
 "colorscheme atom
