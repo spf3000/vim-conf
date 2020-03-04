@@ -357,3 +357,4 @@ let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number not number of
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
+let g:airline_theme = "palenight"
