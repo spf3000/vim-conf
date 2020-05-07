@@ -2,6 +2,7 @@
 call plug#begin()
 
 " Map the leader key to SPACE
+nmap <space> <Nop>
 let mapleader = " "
 
 " ctags stuff
@@ -53,6 +54,9 @@ augroup filetype_scala
     autocmd!
     autocmd BufReadPost *.scala setlocal filetype=scala
 augroup END
+
+" Configuration for vim-scala
+au BufRead,BufNewFile *.sbt set filetype=scala
 
 "vim % matching for more file types
 Plug 'https://github.com/adelarsq/vim-matchit'
@@ -140,7 +144,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'milkypostman/vim-togglelist'
 Plug 'Chiel92/vim-autoformat'
 
-let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle 1 to enable by default
 
 " Tags
 "Plug 'majutsushi/tagbar'
@@ -154,7 +158,7 @@ Plug 'tpope/vim-fugitive'
 " Language plugins
 " Scala plugins
 Plug 'derekwyatt/vim-scala'
-Plug 'natebosch/vim-lsc'
+"Plug 'natebosch/vim-lsc'
 
 " Configuration for vim-lsc
 "let g:lsc_enable_autocomplete = v:false
@@ -171,7 +175,7 @@ Plug 'natebosch/vim-lsc'
 "map <leader>m :LSClientLineDiagnostics<cr>
 
 " config for coc Language server *****************************
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 " Tabnine - ML autocompletions
@@ -209,7 +213,13 @@ nmap <leader>ac <Plug>(coc-codeaction)
 
 " Remap for do action format
 nnoremap <silent> F :call CocAction('format')<CR>
-autocmd BufWritePost *.scala silent call CocActionAsync('format')
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+" format on write
+autocmd BufWritePre *.scala silent call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -306,8 +316,14 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme space-vim-dark
 "colorscheme nord
 "colorscheme gruvbox
-colorscheme atom
-
+"colorscheme atom
+"colorscheme hydrangea
+"colorscheme dracula
+"colorscheme solarized8_dark_high
+"colorscheme purify
+"colorscheme mythos
+"colorscheme cobalt2
+colorscheme birds-of-paradise
 
 " clear search highlighting with escape
 nnoremap <silent> <Esc> :let @/=""<CR>
@@ -345,7 +361,7 @@ let g:airline_left_sep=""
 let g:airline_left_alt_sep="|"
 let g:airline_right_sep=""
 let g:airline_right_alt_sep="|"
-let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number not number of split panes
