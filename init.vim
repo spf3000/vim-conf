@@ -21,7 +21,8 @@ Plug 'maxmellon/vim-jsx-pretty'
 
 " autotag plugin to automatically generate ctags file
 Plug 'craigemery/vim-autotag'
-
+Plug 'tpope/vim-surround'
+Plug 'pablopunk/sick.vim'
 " To Install FZF as well
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 "Plug 'junegunn/fzf.vim'
@@ -40,8 +41,8 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
 
-let g:python_host_prog  = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog  = '/Users/alandevlin/.pyenv/versions/2.7.17/envs/py2nvim/bin/python2'
+let g:python3_host_prog = '/Users/alandevlin/.pyenv/shims/python3'
 
 "" SBT server
 "Plug 'autozimu/LanguageClient-neovim', {
@@ -207,7 +208,7 @@ nmap <leader>ac <Plug>(coc-codeaction)
 
 " Remap for do action format
 nnoremap <silent> F :call CocAction('format')<CR>
-autocmd BufWritePost *.scala silent call CocActionAsync('format')
+"autocmd BufWritePost *.scala silent call CocActionAsync('format')
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -312,7 +313,7 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 "colorscheme hybrid_material
 "colorscheme purify
 "colorscheme mythos
-colorscheme palenight
+colorscheme sick
 
 " clear search highlighting with escape
 nnoremap <silent> <Esc> :let @/=""<CR>
